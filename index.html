@@ -14,97 +14,67 @@
     />
     <!-- ?----------- END FOND------------>
     <!-- !----------- START CSS------------>
-    <link rel="stylesheet" href="./css/base.css" />
-    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" type="text/css" href="./css/main.css" />
     <!-- ?----------- END CSS------------>
     <title>Movie</title>
   </head>
   <body>
+    <!-- !  ---------START Tabbing and focus states------------>
+    <ul class="skip-list">
+      <li><a href="#nav">Skip to main navigation</a></li>
+      <li><a href="#main">Skip to main content</a></li>
+    </ul>
+    <!-- ?  END Tabbing and focus states -->
     <!-- !----------- START HEADER------------>
     <header class="header" id="header">
-      <div>
-        <section class="container">
-          <nav class="navbar" id="nav">
-            <div class="navbar_div_img">
-              <a href="./index.html" class="navbar_div_a">
-                <img
-                  class="logo__img"
-                  src="./img/logoPage.png"
-                  alt="Logo Page Diego A."
-                />
-              </a>
-            </div>
-
-            <div class="nav-link">
-              <ul role="list">
-                <li>
-                  <a
-                    role="button"
-                    href="#nav"
-                    class="navbar_active navbar_a"
-                    aria-label="Click here to go the Home page"
+      <section class="container">
+        <nav class="nav">
+          <ul class="nav_ul" role="list">
+            <li class="nav_li_title">
+              <h1>Yours favourite <span class="h1_span">movies</span></h1>
+            </li>
+            <li class="nav_li_search">
+              <div class="search_lg">
+                <form method="get" action="/" id="searhform">
+                  <input
+                    type="search"
+                    id="keysssb"
+                    name="s"
+                    autocomplete="off"
+                    placeholder="search movies and TV show..."
+                  />
+                  <button
+                    type="button"
+                    id="searchsubmit"
+                    aria-label="search button"
                   >
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a
-                    role="button"
-                    href="./portfolio.html"
-                    class="navbar_a navbar_nonactive"
-                    aria-label="Click here to go the Portfolio page"
-                  >
-                    Portfolio
-                  </a>
-                </li>
-                <li>
-                  <a
-                    role="button"
-                    href="./contact.html"
-                    class="navbar_a navbar_nonactive"
-                    aria-label="Click here to go the Home Contact Me page"
-                  >
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div
-              class="btn-hamburger nav-hamburger"
-              tabindex="0"
-              aria-label="This is a Menu Burguer, click to show all the menu"
-            >
-              <span class="nav-hamburger_line1"></span>
-              <span class="nav-hamburger_line2"></span>
-              <span class="nav-hamburger_line3"></span>
-            </div>
-          </nav>
-        </section>
-      </div>
+                    <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+                  </button>
+                </form>
+              </div>
+            </li>
+            <li id="categories" class="nav_li_categories">
+              <div class="div_categories">
+                <a id="movies" value="movies">Movies</a>
+                <a id="tvShows" value="tv">TV Shows</a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </section>
     </header>
     <!-- ?----------- END HEADER------------>
     <!-- !----------- START MAIN------------>
     <main class="main" id="main">
       <section class="container">
-        <div class="search_lg">
-          <form method="get" action="/" id="searhform">
-            <input
-              type="search"
-              id="keysssb"
-              name="s"
-              autocomplete="off"
-              placeholder="search movies and TV show..."
-            />
-            <button type="submit" id="searchsubmit" aria-label="search button">
-              <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
-            </button>
-          </form>
-        </div>
+        <h2 class="title_selection"></h2>
       </section>
     </main>
     <!-- ?----------- END MAIN------------>
     <!-- !----------- START FOOTER------------>
+    <a href="#header" class="to-top">To Top</a>
     <footer></footer>
+
     <!-- ?----------- END FOOTER------------>
     <!-- !-----------MAIN JS------------->
     <script src="./main.js" type="module" defer></script>
