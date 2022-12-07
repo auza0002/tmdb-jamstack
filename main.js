@@ -1,31 +1,26 @@
 const APP = {
-  //   ! GLOBAL VAR
   KEY: "d1a21373ff4a38d759b3e1fdd4b4c09f",
+  CatImg: "https://placekitten.com/g/500/750",
   selectCategories: "",
   inputvalue: "",
   ul: document.querySelector("#ulInfo"),
   df: new DocumentFragment(),
-  //   ! INIT FUNCTION
   init: {
-    movies: document.querySelector("#movies"),
+    movie: document.querySelector("#movie"),
     tvShows: document.querySelector("#tvShows"),
     btn: document.querySelector("#searchsubmit"),
     main() {
       APP.addListener();
     },
   },
-
-  //   ! ADD EV LISTENER FUNCTION
   addListener: function () {
-    APP.init["movies"].addEventListener("click", APP.checkev);
+    APP.init["movie"].addEventListener("click", APP.checkev);
     APP.init["tvShows"].addEventListener("click", APP.checkev);
     APP.init["btn"].addEventListener("click", APP.getInputValue);
   },
-
-  //   ! CHECK FUNCTION
   checkev: function (ev) {
     let categories = ev.target.getAttribute("value");
-    if (categories === movies) {
+    if (categories === movie) {
       console(categories);
       APP.selectCategories = categories;
     } else {
@@ -58,21 +53,70 @@ const APP = {
         })
         .then((response) => response.json())
         .then((obj) => {
-          APP.creatInnerHtml(obj);
+          switch (APP.selectCategories) {
+            case "movie":
+              APP.creatInnerHtmlTv(obj);
+              console.log("movie witch is working");
+              break;
+            case "tv":
+              APP.creatInnerHtmlMovie(obj);
+              console.log("tv switch is working");
+              break;
+          }
 
           APP["ul"].append(APP["df"]);
         });
     }
   },
-  creatInnerHtml: function (obj) {
+  creatInnerHtmlMovie: function (obj) {
     console.log(obj);
     console.log(obj["results"]);
+    console.log(obj["results"][0].poster_path);
     obj["results"].forEach((item) => {
       const li = document.createElement("li");
-      li.innerHTML = `
-        <img>
-        <h3>${item.original_name}</h3>
+      if (item.poster_path === null) {
+        li.innerHTML = `
+        <div>
+        <img src='${APP.CatImg}'>
+        <h2>${item.original_name}</h2>
+        <p>${item.overview}</p>
+        </div>
         `;
+      } else {
+        li.innerHTML = `
+        <div>
+        <img src='http://image.tmdb.org/t/p/w500/${item.poster_path}'>
+        <h2>${item.original_name}</h2>
+        <p>${item.overview}</p>
+        </div>
+        `;
+      }
+      APP["df"].append(li);
+    });
+  },
+  creatInnerHtmlTv: function (obj) {
+    console.log(obj);
+    console.log(obj["results"]);
+    console.log(obj["results"][0].poster_path);
+    obj["results"].forEach((item) => {
+      const li = document.createElement("li");
+      if (item.poster_path === null) {
+        li.innerHTML = `
+        <div>
+        <img src='${APP.CatImg}'>
+        <h2>${item.original_title}</h2>
+        <p>${item.overview}</p>
+        </div>
+        `;
+      } else {
+        li.innerHTML = `
+        <div>
+        <img src='http://image.tmdb.org/t/p/w500/${item.poster_path}'>
+        <h2>${item.original_title}</h2>
+        <p>${item.overview}</p>
+        </div>
+        `;
+      }
       APP["df"].append(li);
     });
   },
@@ -80,20 +124,6 @@ const APP = {
 
 document.addEventListener("DOMContentLoaded", APP.init.main);
 console.log(APP.init);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // function main() {
 //   // !VARIABLES
