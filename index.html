@@ -27,11 +27,11 @@
     <!-- ?  END Tabbing and focus states -->
     <!-- !----------- START HEADER------------>
     <header class="header" id="header">
-      <section class="container">
+      <section class="container movie_container">
         <nav class="nav">
           <ul class="nav_ul" role="list">
             <li class="nav_li_title">
-              <h1>Yours favourite <span class="h1_span">movies</span></h1>
+              <h1>Movi<span>e+</span></h1>
             </li>
             <li class="nav_li_search">
               <div class="search_lg">
@@ -66,9 +66,20 @@
     <!-- ?----------- END HEADER------------>
     <!-- !----------- START MAIN------------>
     <main class="main" id="main">
+      <div class="banner">
+        <div class="banner_blur">
+          <section class="container containerDiv" id="containerDiv">
+            <!-- <div>
+    <img src='http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}'>
+        <h3>${obj["results"][0].original_title}</h3>
+        <p>${obj["results"][0].overview}</p>
+    </div> -->
+          </section>
+        </div>
+      </div>
       <section class="container">
         <h2 class="title_selection"></h2>
-        <ul role="list" id="ulInfo"></ul>
+        <ul class="ul_list" role="list" id="ulInfo"></ul>
       </section>
     </main>
     <!-- ?----------- END MAIN------------>

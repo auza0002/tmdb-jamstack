@@ -1,10 +1,10 @@
 :root {
   --color-primary: #3d5a80;
   --color-primary-hover: #2d1e2f;
-  --color-secondary: #f7b32b;
+  --color-secondary: red;
   --color-secondary-hover: #a9e5bb;
   --color-third: #731dd8;
-  --color-four: #495867;
+  --color-four: #3d3d3d;
 }
 
 /* Box sizing rules */
@@ -28,6 +28,7 @@ html:focus-within {
 
 /* Set core body defaults */
 body {
+  background-color: var(--color-four);
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   margin: 0;
@@ -35,23 +36,6 @@ body {
 body.is-active {
   height: 100%;
   overflow-y: hidden;
-}
-
-/* Update default margin */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-figure,
-blockquote,
-ul,
-ol,
-dl,
-dd {
-  margin: 0 0 1.5rem;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
@@ -208,7 +192,7 @@ h6 {
 }
 /* ---------- Accessibility ---------- */
 *:focus-visible {
-  outline: 0.225rem solid var(--color-secondary);
+  outline: 0.125rem solid var(--color-secondary);
   outline-offset: 0.125rem;
 }
 
@@ -264,13 +248,72 @@ h6 {
 }
 
 /* ! ------------ START nav---------- */
-/* .nav .nav_ul {
+.movie_container {
+  background-color: black;
+}
+.nav {
+  padding: 1rem;
+  padding-bottom: 1rem;
+}
+.nav .nav_ul {
+  margin: 0;
+  padding: 0;
   display: grid;
-} */
-
-.nav_li_categories .div_categories {
-  margin: 2rem;
+  gap: 1rem;
+}
+.nav .nav_ul li {
+  text-align: center;
+}
+.nav .nav_li_title h1 {
+  color: white;
+  margin: 0;
+}
+.nav .nav_li_title span {
+  color: red;
+}
+.search_lg {
+  background-color: var(--color-four);
+  border-radius: 15px;
+  padding: 1.2rem;
+}
+.search_lg form {
   display: flex;
-  gap: 3rem;
+}
+.search_lg input {
+  background-color: transparent;
+  border: none;
+  color: white;
+  flex-grow: 2;
+  padding: 0.5rem;
+}
+.search_lg button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.3rem;
+  padding: 0.5rem;
+}
+.search_lg i {
+  color: white;
 }
 /* ? ------------ END nav---------- */
+
+.banner .banner_blur {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+  backdrop-filter: blur(10px);
+
+  color: white;
+}
+
+.banner_img {
+  display: grid;
+  grid-template-columns: repeat(2, 6fr);
+}
+.container img {
+  width: 50%;
+  display: inline-block;
+  aspect-ratio: 1/1;
+}
+.img_split {
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+}
