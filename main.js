@@ -32,6 +32,8 @@ const APP = {
   },
   getInputValue: function () {
     let inputElement = document.getElementById("keysssb").value.trim();
+    let inputval = document.getElementById("keysssb");
+    inputval.value = ``;
     if (inputElement === "") {
     } else {
       APP.inputvalue = inputElement;
