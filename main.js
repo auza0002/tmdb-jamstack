@@ -23,8 +23,11 @@ const APP = {
     let categories = ev.target.getAttribute("value");
     if (categories === movie) {
       console(categories);
+      APP.activeBtn(categories);
       APP.selectCategories = categories;
     } else {
+      console.log(categories);
+      APP.activeBtn(categories);
       APP.selectCategories = categories;
     }
     console.log(`---${APP.selectCategories}---`, "checkev function is working");
@@ -160,6 +163,15 @@ const APP = {
       `style`,
       `background-image: url(http://image.tmdb.org/t/p/original/${obj["results"][0].backdrop_path});background-repeat:no-repeat;background-size: cover;`
     );
+  },
+  activeBtn: function (value) {
+    if (value == "movie") {
+      APP.init["tvShows"].classList.remove("active");
+      APP.init["movie"].classList.add("active");
+    } else {
+      APP.init["movie"].classList.remove("active");
+      APP.init["tvShows"].classList.add("active");
+    }
   },
 };
 

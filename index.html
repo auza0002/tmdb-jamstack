@@ -37,11 +37,12 @@
               <div class="search_lg">
                 <form method="get" action="/" id="searhform">
                   <input
+                    aria-label="this is an input and here you can type the Tv or Movie you are looking for"
                     type="search"
                     id="keysssb"
                     name="s"
                     autocomplete="off"
-                    placeholder="search movies and TV show..."
+                    placeholder="Search movies and TV show..."
                   />
                   <button
                     type="button"
@@ -55,8 +56,8 @@
             </li>
             <li id="categories" class="nav_li_categories">
               <div class="div_categories">
-                <a id="movie" value="movie">Movies</a>
-                <a id="tvShows" value="tv">TV Shows</a>
+                <a id="movie" value="movie" src="/">Movies</a>
+                <a id="tvShows" value="tv" src="/">TV Shows</a>
               </div>
             </li>
           </ul>
@@ -78,7 +79,7 @@
         </div>
       </div>
       <section class="container">
-        <h2 class="title_selection"></h2>
+        <!-- <h2 class="title_selection">Hello</h2> -->
         <ul class="ul_list" role="list" id="ulInfo"></ul>
       </section>
     </main>
