@@ -81,12 +81,13 @@ const APP = {
     containerDiv.innerHTML = ``;
     containerDiv.innerHTML = `
     <div class="banner_img">
-      <div>
+      <div class="banner_img_div">
         <img src='http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}'>
       </div>
-    <div>    
-        <h3>${obj["results"][0].original_name}</h3>
+    <div class="banner_text">    
+        <h2>${obj["results"][0].original_name}</h2>
         <p>${obj["results"][0].overview}</p>
+        <a class="btn" href="/">Learn more</a>
         </div>
     </div>
     `;
@@ -129,10 +130,11 @@ const APP = {
     containerDiv.innerHTML = ``;
     containerDiv.innerHTML = `
     <div class="banner_img">
-        <div><img class="img_split" src='http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}'></div>
-    <div>    
-        <h3>${obj["results"][0].original_title}</h3>
+        <div class="banner_img_div"><img class="img_split" src='http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}'></div>
+    <div class="banner_text">    
+        <h2>${obj["results"][0].original_title}</h2>
         <p>${obj["results"][0].overview}</p>
+        <a class="btn" href="/">Learn more</a>
         </div>
     </div>
     `;
@@ -171,7 +173,7 @@ const APP = {
     } else {
       APP.banner.setAttribute(
         `style`,
-        `background-image: url(http://image.tmdb.org/t/p/original/${obj["results"][0].backdrop_path});background-repeat:no-repeat;background-size: cover;`
+        `background-image: url(http://image.tmdb.org/t/p/original/${obj["results"][0].backdrop_path});background-repeat:no-repeat;background-size: cover;background-position: center;`
       );
     }
   },
