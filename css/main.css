@@ -318,12 +318,17 @@ h6 {
   border-radius: 15px;
 }
 .div_categories a {
+  border-radius: 10px;
+  background-color: #29292995;
   color: white;
   padding: 0.5rem;
   transition: all 0.3s;
 }
+.div_categories a:hover,
+.div_categories a:focus {
+  background-color: red;
+}
 .div_categories a.active {
-  border-radius: 5px;
   background-color: red;
 }
 .search_lg input::placeholder {

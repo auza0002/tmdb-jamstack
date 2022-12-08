@@ -1,4 +1,5 @@
 const APP = {
+  banner: document.querySelector(".banner"),
   KEY: "d1a21373ff4a38d759b3e1fdd4b4c09f",
   CatImg: "https://placekitten.com/g/500/750",
   selectCategories: "",
@@ -22,32 +23,25 @@ const APP = {
   checkev: function (ev) {
     let categories = ev.target.getAttribute("value");
     if (categories === movie) {
-      console(categories);
       APP.activeBtn(categories);
       APP.selectCategories = categories;
     } else {
-      console.log(categories);
       APP.activeBtn(categories);
       APP.selectCategories = categories;
     }
-    console.log(`---${APP.selectCategories}---`, "checkev function is working");
   },
   getInputValue: function () {
     let inputElement = document.getElementById("keysssb").value.trim();
     if (inputElement === "") {
-      console.log("error");
     } else {
       APP.inputvalue = inputElement;
-      console.log(APP.inputvalue);
       APP.getData();
     }
-    console.log("btn is working");
   },
   getData: function () {
     if (APP.selectCategories && APP.inputvalue) {
       APP["ul"].innerHTML = ``;
       let url = `https://api.themoviedb.org/3/search/${APP.selectCategories}?query=${APP.inputvalue}&api_key=${APP.KEY}`;
-      console.log(url);
       fetch(url)
         .then((response) => {
           if (!response.ok) {
@@ -57,25 +51,34 @@ const APP = {
         })
         .then((response) => response.json())
         .then((obj) => {
-          switch (APP.selectCategories) {
-            case "movie":
-              APP.creatInnerHtmlTv(obj);
-              console.log("movie witch is working");
-              break;
-            case "tv":
-              APP.creatInnerHtmlMovie(obj);
-              console.log("tv switch is working");
-              break;
-          }
+          console.log(obj);
+          if (obj.results.length === 0) {
+            APP.bannerImg(null);
+            APP.deletBanner(null);
+            console.log("nada en results");
+          } else {
+            APP.deletBanner(true);
+            switch (APP.selectCategories) {
+              case "movie":
+                console.log("movie selection");
+                APP.creatInnerHtmlTv(obj);
 
+                break;
+              case "tv":
+                console.log("tv selection");
+                APP.creatInnerHtmlMovie(obj);
+
+                break;
+              default:
+            }
+          }
           APP["ul"].append(APP["df"]);
         });
     }
   },
   creatInnerHtmlMovie: function (obj) {
-    console.log(obj);
-    console.log(obj["results"]);
     let newResult = obj["results"].slice(1, obj["results"].length);
+    containerDiv.innerHTML = ``;
     containerDiv.innerHTML = `
     <div class="banner_img">
       <div>
@@ -114,14 +117,19 @@ const APP = {
       APP["df"].append(li);
     });
   },
+  deletBanner: function (response) {
+    if (response === null) {
+      APP.containerDiv.setAttribute(`style`, `display: none;`);
+    } else if (response === true) {
+      APP.containerDiv.setAttribute(`style`, `display: block;`);
+    }
+  },
   creatInnerHtmlTv: function (obj) {
-    console.log(obj);
-    console.log(obj["results"]);
     let newResult = obj["results"].slice(1, obj["results"].length);
+    containerDiv.innerHTML = ``;
     containerDiv.innerHTML = `
     <div class="banner_img">
         <div><img class="img_split" src='http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}'></div>
-
     <div>    
         <h3>${obj["results"][0].original_title}</h3>
         <p>${obj["results"][0].overview}</p>
@@ -158,11 +166,14 @@ const APP = {
     });
   },
   bannerImg: function (obj) {
-    let banner = document.querySelector(".banner");
-    banner.setAttribute(
-      `style`,
-      `background-image: url(http://image.tmdb.org/t/p/original/${obj["results"][0].backdrop_path});background-repeat:no-repeat;background-size: cover;`
-    );
+    if (obj === null) {
+      APP.banner.setAttribute(`style`, `background-image: none;`);
+    } else {
+      APP.banner.setAttribute(
+        `style`,
+        `background-image: url(http://image.tmdb.org/t/p/original/${obj["results"][0].backdrop_path});background-repeat:no-repeat;background-size: cover;`
+      );
+    }
   },
   activeBtn: function (value) {
     if (value == "movie") {
@@ -176,4 +187,3 @@ const APP = {
 };
 
 document.addEventListener("DOMContentLoaded", APP.init.main);
-console.log(APP.init);
