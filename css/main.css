@@ -446,10 +446,12 @@ h6 {
 .banner_img .btn:focus {
   background-color: red;
 }
-
-.errorCatSelect {
+.errorCatSelect.active {
   display: flex;
   justify-content: center;
+}
+.errorCatSelect {
+  display: none;
 }
 .errorCatSelect img {
   width: 350px;

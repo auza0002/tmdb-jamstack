@@ -35,7 +35,9 @@ const APP = {
     let inputval = document.getElementById("keysssb");
     inputval.value = ``;
     if (inputElement === "") {
+      APP.activeSelector(true);
     } else {
+      APP.activeSelector(false);
       APP.inputvalue = inputElement;
       APP.getData();
     }
@@ -186,6 +188,14 @@ const APP = {
     } else {
       APP.init["movie"].classList.remove("active");
       APP.init["tvShows"].classList.add("active");
+    }
+  },
+  activeSelector: function (active) {
+    let errorCatSelect = document.querySelector(".errorCatSelect");
+    if (active === true) {
+      errorCatSelect.classList.add("active");
+    } else {
+      errorCatSelect.classList.remove("active");
     }
   },
 };
