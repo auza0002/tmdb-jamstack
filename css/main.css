@@ -324,11 +324,18 @@ h6 {
   padding: 0.5rem;
   transition: all 0.3s;
 }
-.div_categories a:hover,
-.div_categories a:focus {
+.div_categories .movie:hover,
+.div_categories .movie:focus {
+  background-color: var(--color-primary);
+}
+.div_categories .movie.active {
+  background-color: var(--color-primary);
+}
+.div_categories .tvShows:hover,
+.div_categories .tvShows:focus {
   background-color: red;
 }
-.div_categories a.active {
+.div_categories .tvShows.active {
   background-color: red;
 }
 .search_lg input::placeholder {
