@@ -1,5 +1,5 @@
 :root {
-  --color-primary: #3d5a80;
+  --color-primary: #2268c3;
   --color-primary-hover: #2d1e2f;
   --color-secondary: red;
   --color-secondary-hover: #a9e5bb;
@@ -378,7 +378,6 @@ h6 {
     padding-right: 5%;
   }
   .div_categories a {
-    margin: auto;
     color: white;
     padding: 0.5rem;
     transition: all 0.3s;
@@ -408,7 +407,7 @@ h6 {
   );
   padding-top: 1rem;
   padding-bottom: 1rem;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
   color: white;
 }
 .banner .banner_blur.tvActive {
@@ -493,7 +492,7 @@ h6 {
     margin-bottom: 0rem;
   }
   .banner_text p {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
   }
   .banner_text .btn {
     align-self: start;
@@ -516,4 +515,24 @@ h6 {
   font-weight: bold;
   margin-left: 0.3rem;
   margin-right: 0.3rem;
+}
+.containerUl {
+  margin-top: 5rem;
+}
+.containerUl ul {
+  display: grid;
+  gap: 3rem;
+  padding: 0;
+  margin: 0;
+}
+.containerUl li {
+  display: grid;
+}
+.containerUl img {
+  margin-left: auto;
+  margin-right: auto;
+}
+.containerUl a {
+  color: white;
+  text-decoration: none;
 }

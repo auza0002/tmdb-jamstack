@@ -89,83 +89,23 @@ const APP = {
     }
   },
   creatInnerHtmlMovie: function (obj) {
-    let newResult = obj["results"].slice(1, obj["results"].length);
-    let poster_pathObj = obj["results"][0].poster_path;
+    APP.bannerImg(obj);
+    APP.changeColorBlur(true);
     let original_titleObj = obj["results"][0].original_title;
-    let overview = obj["results"][0].overview;
-    containerDiv.innerHTML = ``;
-    APP.changeColorBlur(true);
-    if (obj["results"][0].poster_path === null) {
-      containerDiv.innerHTML = `
+    let poster_pathObj = obj["results"][0].poster_path
+      ? `http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}`
+      : `./png/noimage.png`;
+    let overviewObj = obj["results"][0].overview
+      ? obj["results"][0].overview
+      : `"${original_titleObj}" does not have overview`;
+    containerDiv.innerHTML = `
     <div class="banner_img">
-      <div class="banner_img_div">
-        <img src='./png/noimage.png'>
-      </div>
-    <div class="banner_text">    
-        <h2>${obj["results"][0].original_title}</h2>
-        <p>${obj["results"][0].overview}</p>
-        <a class="btn" href="https://api.themoviedb.org/3/movie/${obj["results"][0].id}/credits?api_key=${APP.KEY}">Learn more</a>
+        <div class="banner_img_div">
+        <img class="img_split" src='${poster_pathObj}'>
         </div>
-    </div>
-    `;
-    } else {
-      APP.bannerImg(obj);
-      containerDiv.innerHTML = `
-    <div class="banner_img">
-      <div class="banner_img_div">
-        <img src='http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}'>
-      </div>
     <div class="banner_text">    
-        <h2>${obj["results"][0].original_title}</h2>
-        <p>${obj["results"][0].overview}</p>
-        <a class="btn" href="https://api.themoviedb.org/3/movie/${obj["results"][0].id}/credits?api_key=${APP.KEY}">Learn more</a>
-        </div>
-    </div>
-    `;
-    }
-    newResult.forEach((item) => {
-      const li = document.createElement("li");
-      if (item.poster_path === null) {
-        li.innerHTML = `
-        <a href="https://api.themoviedb.org/3/movie/${item.id}/credits?api_key=${APP.KEY}">
-          <div>
-            <img src='./png/noimage.png'>
-          </div>
-          <div class="theback">
-            <h3>${item.original_name}</h3>
-            <p>${item.overview}</p>
-          </div>
-        </div>
-        </a>
-        `;
-      } else {
-        li.innerHTML = `
-        <a href="https://api.themoviedb.org/3/movie/${item.id}/credits?api_key=${APP.KEY}">
-          <div>
-          <img src='http://image.tmdb.org/t/p/w500/${item.poster_path}'>
-          </div>
-          <div>
-          <h3>${item.original_name}</h3>
-          <p>${item.overview}</p>
-          </div>
-        </a>
-        `;
-      }
-      APP["df"].append(li);
-    });
-  },
-  creatInnerHtmlTv: function (obj) {
-    let newResult = obj["results"].slice(1, obj["results"].length);
-    APP.changeColorBlur(true);
-    console.log(obj["results"][0].id);
-    containerDiv.innerHTML = ``;
-    if (obj["results"][0].poster_path === null) {
-      containerDiv.innerHTML = `
-    <div class="banner_img">
-        <div class="banner_img_div"><img class="img_split" src='./png/noimage.png'></div>
-    <div class="banner_text">    
-        <h2>${obj["results"][0].original_name}</h2>
-        <p>${obj["results"][0].overview}</p>
+        <h2>${original_titleObj}</h2>
+        <p>${overviewObj}</p>
         <a class="btn" 
           href="https://api.themoviedb.org/3/tv/${obj["results"][0].id}/credits?api_key=${APP.KEY}">
             Learn more
@@ -173,51 +113,70 @@ const APP = {
         </div>
     </div>
     `;
-    } else {
-      APP.bannerImg(obj);
-      containerDiv.innerHTML = `
+    let newResult = obj["results"].slice(1, obj["results"].length);
+    newResult.forEach((item) => {
+      let newResultImg = item.poster_path
+        ? `http://image.tmdb.org/t/p/w500/${item.poster_path}`
+        : `./png/noimage.png`;
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <a href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">
+          <div class="divCardImg">
+            <img src='${newResultImg}'>
+          </div>
+        <div class="divCardText">
+          <h3>${item.original_title}</h3>
+          <p>${item.overview}</p></div>
+        </div>
+        </a>
+
+        `;
+      APP["df"].append(li);
+    });
+  },
+  creatInnerHtmlTv: function (obj) {
+    APP.bannerImg(obj);
+    APP.changeColorBlur(true);
+    let original_nameObj = obj["results"][0].original_name;
+    let poster_pathObj = obj["results"][0].poster_path
+      ? `http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}`
+      : `./png/noimage.png`;
+    let overviewObj = obj["results"][0].overview
+      ? obj["results"][0].overview
+      : `"${original_nameObj}" does not have overview`;
+    containerDiv.innerHTML = `
     <div class="banner_img">
-        <div class="banner_img_div"><img class="img_split" src='http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}'></div>
+        <div class="banner_img_div">
+        <img class="img_split" src='${poster_pathObj}'>
+        </div>
     <div class="banner_text">    
-        <h2>${obj["results"][0].original_name}</h2>
-        <p>${obj["results"][0].overview}</p>
-        <a class="btn"
+        <h2>${original_nameObj}</h2>
+        <p>${overviewObj}</p>
+        <a class="btn" 
           href="https://api.themoviedb.org/3/tv/${obj["results"][0].id}/credits?api_key=${APP.KEY}">
             Learn more
         </a>
         </div>
     </div>
     `;
-    }
-
+    let newResult = obj["results"].slice(1, obj["results"].length);
     newResult.forEach((item) => {
+      let newResultImg = item.poster_path
+        ? `http://image.tmdb.org/t/p/w500/${item.poster_path}`
+        : `./png/noimage.png`;
       const li = document.createElement("li");
-      if (item.poster_path === null) {
-        li.innerHTML = `
+      li.innerHTML = `
         <a href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">
-          <div>
-            <img src='./png/noimage.png'>
+          <div class="divCardImg">
+            <img src='${newResultImg}'>
           </div>
-        <div>
-          <h3>${item.original_title}</h3>
+        <div class="divCardText">
+          <h3>${item.original_name}</h3>
           <p>${item.overview}</p></div>
         </div>
         </a>
 
         `;
-      } else {
-        li.innerHTML = `
-        <a href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">
-        <div>
-            <img src='http://image.tmdb.org/t/p/w500/${item.poster_path}'>
-        </div>
-        <div>
-          <h3>${item.original_title}</h3>
-          <p>${item.overview}</p></div>
-        </div>
-        </a>
-        `;
-      }
       APP["df"].append(li);
     });
   },
