@@ -25,22 +25,25 @@ const APP = {
     let categories = ev.target.getAttribute("value");
     if (categories === movie) {
       APP.activeBtn(categories);
+      console.log(categories);
       APP.selectCategories = categories;
     } else {
       APP.activeBtn(categories);
       APP.selectCategories = categories;
+      console.log(categories);
     }
   },
   getInputValue: function () {
     let inputElement = document.getElementById("keysssb").value.trim();
+    console.log(inputElement);
     let inputval = document.getElementById("keysssb");
     inputval.value = ``;
-    if (inputElement === "") {
-      APP.activeSelector(true);
-    } else {
+    if (inputElement && APP.selectCategories) {
       APP.activeSelector(false);
       APP.inputvalue = inputElement;
       APP.getData();
+    } else {
+      APP.activeSelector(true);
     }
   },
   getData: function () {
@@ -57,26 +60,21 @@ const APP = {
         .then((response) => response.json())
         .then((obj) => {
           APP.containerTitle(false);
-          console.log(obj);
+
           if (obj.results.length === 0) {
             APP.bannerImg(null);
             APP.deletBanner(null);
             APP.changeColorBlur(false);
             APP.containerTitle(false);
-            console.log("nada en results");
           } else {
             APP.deletBanner(true);
             APP.containerTitle(true);
             switch (APP.selectCategories) {
               case "movie":
-                console.log("movie selection");
-                APP.creatInnerHtmlTv(obj);
-
+                APP.creatInnerHtmlMovie(obj);
                 break;
               case "tv":
-                console.log("tv selection");
-                APP.creatInnerHtmlMovie(obj);
-
+                APP.creatInnerHtmlTv(obj);
                 break;
               default:
             }
@@ -88,6 +86,7 @@ const APP = {
   creatInnerHtmlMovie: function (obj) {
     let newResult = obj["results"].slice(1, obj["results"].length);
     containerDiv.innerHTML = ``;
+
     if (obj["results"][0].poster_path === null) {
       containerDiv.innerHTML = `
     <div class="banner_img">
@@ -95,22 +94,23 @@ const APP = {
         <img src='./png/noimage.png'>
       </div>
     <div class="banner_text">    
-        <h2>${obj["results"][0].original_name}</h2>
+        <h2>${obj["results"][0].original_title}</h2>
         <p>${obj["results"][0].overview}</p>
-        <a class="btn" href="/">Learn more</a>
+        <a class="btn" href="https://api.themoviedb.org/3/movie/${obj["results"][0].id}/credits?api_key=${APP.KEY}">Learn more</a>
         </div>
     </div>
     `;
     } else {
+      APP.bannerImg(obj);
       containerDiv.innerHTML = `
     <div class="banner_img">
       <div class="banner_img_div">
         <img src='http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}'>
       </div>
     <div class="banner_text">    
-        <h2>${obj["results"][0].original_name}</h2>
+        <h2>${obj["results"][0].original_title}</h2>
         <p>${obj["results"][0].overview}</p>
-        <a class="btn" href="/">Learn more</a>
+        <a class="btn" href="https://api.themoviedb.org/3/movie/${obj["results"][0].id}/credits?api_key=${APP.KEY}">Learn more</a>
         </div>
     </div>
     `;
@@ -119,8 +119,8 @@ const APP = {
       const li = document.createElement("li");
       if (item.poster_path === null) {
         li.innerHTML = `
-        <div class="thecard">
-          <div class="thefront">
+        <a href="https://api.themoviedb.org/3/movie/${item.id}/credits?api_key=${APP.KEY}">
+          <div>
             <img src='./png/noimage.png'>
           </div>
           <div class="theback">
@@ -128,51 +128,55 @@ const APP = {
             <p>${item.overview}</p>
           </div>
         </div>
+        </a>
         `;
       } else {
         li.innerHTML = `
-        <div>
-        <img src='http://image.tmdb.org/t/p/w500/${item.poster_path}'>
-        <h3>${item.original_name}</h3>
-        <p>${item.overview}</p>
-        </div>
+        <a href="https://api.themoviedb.org/3/movie/${item.id}/credits?api_key=${APP.KEY}">
+          <div>
+          <img src='http://image.tmdb.org/t/p/w500/${item.poster_path}'>
+          </div>
+          <div>
+          <h3>${item.original_name}</h3>
+          <p>${item.overview}</p>
+          </div>
+        </a>
         `;
       }
-      APP.bannerImg(obj);
       APP["df"].append(li);
       APP.changeColorBlur(true);
     });
   },
-  deletBanner: function (response) {
-    if (response === null) {
-      APP.containerDiv.setAttribute(`style`, `display: none;`);
-    } else if (response === true) {
-      console.log("no back");
-      APP.containerDiv.setAttribute(`style`, `display: block;`);
-    }
-  },
   creatInnerHtmlTv: function (obj) {
     let newResult = obj["results"].slice(1, obj["results"].length);
+    console.log(obj["results"][0].id);
     containerDiv.innerHTML = ``;
     if (obj["results"][0].poster_path === null) {
       containerDiv.innerHTML = `
     <div class="banner_img">
         <div class="banner_img_div"><img class="img_split" src='./png/noimage.png'></div>
     <div class="banner_text">    
-        <h2>${obj["results"][0].original_title}</h2>
+        <h2>${obj["results"][0].original_name}</h2>
         <p>${obj["results"][0].overview}</p>
-        <a class="btn" href="/">Learn more</a>
+        <a class="btn" 
+          href="https://api.themoviedb.org/3/tv/${obj["results"][0].id}/credits?api_key=${APP.KEY}">
+            Learn more
+        </a>
         </div>
     </div>
     `;
     } else {
+      APP.bannerImg(obj);
       containerDiv.innerHTML = `
     <div class="banner_img">
         <div class="banner_img_div"><img class="img_split" src='http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}'></div>
     <div class="banner_text">    
-        <h2>${obj["results"][0].original_title}</h2>
+        <h2>${obj["results"][0].original_name}</h2>
         <p>${obj["results"][0].overview}</p>
-        <a class="btn" href="/">Learn more</a>
+        <a class="btn"
+          href="https://api.themoviedb.org/3/tv/${obj["results"][0].id}/credits?api_key=${APP.KEY}">
+            Learn more
+        </a>
         </div>
     </div>
     `;
@@ -182,38 +186,45 @@ const APP = {
       const li = document.createElement("li");
       if (item.poster_path === null) {
         li.innerHTML = `
-        <div class="thecard">
-          <div class="thefront">
+        <a href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">
+          <div>
             <img src='./png/noimage.png'>
           </div>
-        <div class="theback">
+        <div>
           <h3>${item.original_title}</h3>
           <p>${item.overview}</p></div>
         </div>
+        </a>
+
         `;
       } else {
         li.innerHTML = `
-        <div class="thecard">
-          <div class="thefront">
+        <a href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">
+        <div>
             <img src='http://image.tmdb.org/t/p/w500/${item.poster_path}'>
-          </div>
-        <div class="theback">
+        </div>
+        <div>
           <h3>${item.original_title}</h3>
           <p>${item.overview}</p></div>
         </div>
+        </a>
         `;
       }
-      APP.bannerImg(obj);
       APP["df"].append(li);
       APP.changeColorBlur(true);
     });
   },
+  deletBanner: function (response) {
+    if (response === null) {
+      APP.containerDiv.setAttribute(`style`, `display: none;`);
+    } else if (response === true) {
+      APP.containerDiv.setAttribute(`style`, `display: block;`);
+    }
+  },
   bannerImg: function (obj) {
-    console.log(APP.selectCategories);
-    let blurBanner = document.querySelector(".banner_blur");
+    console.log("llegue a banner IMG");
     console.log(obj);
     if (obj === null) {
-      console.log("no back");
       APP.banner.setAttribute(`style`, `background-image: none;`);
     } else if (obj["results"][0].backdrop_path === null) {
       APP.banner.setAttribute(
@@ -257,7 +268,6 @@ const APP = {
   },
   changeColorBlur: function (value) {
     let blurBanner = document.querySelector(".banner_blur");
-    console.log(APP.selectCategories);
     if (value === true) {
       if (APP.selectCategories == "tv") {
         blurBanner.classList.remove("movieActive");
