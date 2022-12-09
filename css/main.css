@@ -479,3 +479,17 @@ h6 {
     align-self: start;
   }
 }
+.containerTitle {
+  text-align: center;
+  color: white;
+}
+.containerTitle p {
+  margin: 1rem;
+  font-size: 1.225rem;
+}
+.containerTitle span {
+  text-transform: capitalize;
+  font-weight: bold;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}

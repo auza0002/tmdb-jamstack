@@ -59,9 +59,11 @@ const APP = {
           if (obj.results.length === 0) {
             APP.bannerImg(null);
             APP.deletBanner(null);
+            APP.containerTitle(false);
             console.log("nada en results");
           } else {
             APP.deletBanner(true);
+            APP.containerTitle(true);
             switch (APP.selectCategories) {
               case "movie":
                 console.log("movie selection");
@@ -196,6 +198,15 @@ const APP = {
       errorCatSelect.classList.add("active");
     } else {
       errorCatSelect.classList.remove("active");
+    }
+  },
+  containerTitle: function (active) {
+    let varTitle = document.querySelector(".containerTitle");
+    if (active === true) {
+      varTitle.innerHTML = `
+      <p>Here you can enjot all the result for <span>"${APP.inputvalue}"</span> inside the category <span>"${APP.selectCategories}"</span></p>
+      `;
+    } else {
     }
   },
 };
