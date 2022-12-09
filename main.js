@@ -10,7 +10,7 @@ const APP = {
   init: {
     movie: document.querySelector("#movie"),
     tvShows: document.querySelector("#tvShows"),
-    btn: document.querySelector("#searchsubmit"),
+    btn: document.querySelector("#searhform"),
     main() {
       APP.addListener();
     },
@@ -18,7 +18,7 @@ const APP = {
   addListener: function () {
     APP.init["movie"].addEventListener("click", APP.checkev);
     APP.init["tvShows"].addEventListener("click", APP.checkev);
-    APP.init["btn"].addEventListener("click", APP.getInputValue);
+    APP.init["btn"].addEventListener("submit", APP.getInputValue);
     APP.toTop();
   },
   checkev: function (ev) {
@@ -33,7 +33,8 @@ const APP = {
       console.log(categories);
     }
   },
-  getInputValue: function () {
+  getInputValue: function (ev) {
+    ev.preventDefault();
     let inputElement = document.getElementById("keysssb").value.trim();
     console.log(inputElement);
     let inputval = document.getElementById("keysssb");
