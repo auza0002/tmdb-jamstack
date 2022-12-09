@@ -55,6 +55,7 @@ const APP = {
         })
         .then((response) => response.json())
         .then((obj) => {
+          APP.containerTitle(false);
           console.log(obj);
           if (obj.results.length === 0) {
             APP.bannerImg(null);
@@ -85,7 +86,21 @@ const APP = {
   creatInnerHtmlMovie: function (obj) {
     let newResult = obj["results"].slice(1, obj["results"].length);
     containerDiv.innerHTML = ``;
-    containerDiv.innerHTML = `
+    if (obj["results"][0].poster_path === null) {
+      containerDiv.innerHTML = `
+    <div class="banner_img">
+      <div class="banner_img_div">
+        <img src='./png/noimage.png'>
+      </div>
+    <div class="banner_text">    
+        <h2>${obj["results"][0].original_name}</h2>
+        <p>${obj["results"][0].overview}</p>
+        <a class="btn" href="/">Learn more</a>
+        </div>
+    </div>
+    `;
+    } else {
+      containerDiv.innerHTML = `
     <div class="banner_img">
       <div class="banner_img_div">
         <img src='http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}'>
@@ -97,13 +112,14 @@ const APP = {
         </div>
     </div>
     `;
+    }
     newResult.forEach((item) => {
       const li = document.createElement("li");
       if (item.poster_path === null) {
         li.innerHTML = `
         <div class="thecard">
           <div class="thefront">
-            <img src='${APP.CatImg}'>
+            <img src='./png/noimage.png'>
           </div>
           <div class="theback">
             <h3>${item.original_name}</h3>
@@ -128,13 +144,26 @@ const APP = {
     if (response === null) {
       APP.containerDiv.setAttribute(`style`, `display: none;`);
     } else if (response === true) {
+      console.log("no back");
       APP.containerDiv.setAttribute(`style`, `display: block;`);
     }
   },
   creatInnerHtmlTv: function (obj) {
     let newResult = obj["results"].slice(1, obj["results"].length);
     containerDiv.innerHTML = ``;
-    containerDiv.innerHTML = `
+    if (obj["results"][0].poster_path === null) {
+      containerDiv.innerHTML = `
+    <div class="banner_img">
+        <div class="banner_img_div"><img class="img_split" src='./png/noimage.png'></div>
+    <div class="banner_text">    
+        <h2>${obj["results"][0].original_title}</h2>
+        <p>${obj["results"][0].overview}</p>
+        <a class="btn" href="/">Learn more</a>
+        </div>
+    </div>
+    `;
+    } else {
+      containerDiv.innerHTML = `
     <div class="banner_img">
         <div class="banner_img_div"><img class="img_split" src='http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}'></div>
     <div class="banner_text">    
@@ -144,13 +173,15 @@ const APP = {
         </div>
     </div>
     `;
+    }
+
     newResult.forEach((item) => {
       const li = document.createElement("li");
       if (item.poster_path === null) {
         li.innerHTML = `
         <div class="thecard">
           <div class="thefront">
-            <img src='${APP.CatImg}'>
+            <img src='./png/noimage.png'>
           </div>
         <div class="theback">
           <h3>${item.original_title}</h3>
@@ -174,8 +205,15 @@ const APP = {
     });
   },
   bannerImg: function (obj) {
+    console.log(obj);
     if (obj === null) {
+      console.log("no back");
       APP.banner.setAttribute(`style`, `background-image: none;`);
+    } else if (obj["results"][0].backdrop_path === null) {
+      APP.banner.setAttribute(
+        `style`,
+        `background-image: url(./png/ErrorBack.png);background-repeat:no-repeat;background-size: cover;background-position: center;`
+      );
     } else {
       APP.banner.setAttribute(
         `style`,
@@ -203,10 +241,12 @@ const APP = {
   containerTitle: function (active) {
     let varTitle = document.querySelector(".containerTitle");
     if (active === true) {
+      varTitle.classList.add("active");
       varTitle.innerHTML = `
-      <p>Here you can enjot all the result for <span>"${APP.inputvalue}"</span> inside the category <span>"${APP.selectCategories}"</span></p>
+      <p>Here you can enjot all the result for <span>"${APP.inputvalue}"</span> inside the category <span>${APP.selectCategories}</span></p>
       `;
     } else {
+      varTitle.classList.remove("active");
     }
   },
 };

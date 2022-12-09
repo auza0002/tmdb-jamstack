@@ -469,9 +469,14 @@ h6 {
     flex-direction: column;
     display: flex;
     text-align: left;
-    padding-bottom: 2rem;
+    padding-bottom: 0rem;
+  }
+  .banner_text h2 {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
   }
   .banner_text p {
+    font-size: 1.125rem;
     margin: auto;
   }
   .banner_text .btn {
@@ -480,6 +485,10 @@ h6 {
   }
 }
 .containerTitle {
+  display: none;
+}
+.containerTitle.active {
+  display: block;
   text-align: center;
   color: white;
 }
