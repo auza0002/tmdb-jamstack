@@ -55,10 +55,12 @@ const APP = {
           if (!response.ok) {
             console.log("no response");
           }
+          console.log(response);
           return response;
         })
         .then((response) => response.json())
         .then((obj) => {
+          console.log("este es el obj despues de hacer el fecth", obj);
           APP.containerTitle(false);
 
           if (obj.results.length === 0) {
@@ -66,7 +68,9 @@ const APP = {
             APP.deletBanner(null);
             APP.changeColorBlur(false);
             APP.containerTitle(false);
+            APP.containerNoResults(true);
           } else {
+            APP.containerNoResults(false);
             APP.deletBanner(true);
             APP.containerTitle(true);
             switch (APP.selectCategories) {
@@ -86,7 +90,7 @@ const APP = {
   creatInnerHtmlMovie: function (obj) {
     let newResult = obj["results"].slice(1, obj["results"].length);
     containerDiv.innerHTML = ``;
-
+    APP.changeColorBlur(true);
     if (obj["results"][0].poster_path === null) {
       containerDiv.innerHTML = `
     <div class="banner_img">
@@ -144,11 +148,11 @@ const APP = {
         `;
       }
       APP["df"].append(li);
-      APP.changeColorBlur(true);
     });
   },
   creatInnerHtmlTv: function (obj) {
     let newResult = obj["results"].slice(1, obj["results"].length);
+    APP.changeColorBlur(true);
     console.log(obj["results"][0].id);
     containerDiv.innerHTML = ``;
     if (obj["results"][0].poster_path === null) {
@@ -211,7 +215,6 @@ const APP = {
         `;
       }
       APP["df"].append(li);
-      APP.changeColorBlur(true);
     });
   },
   deletBanner: function (response) {
@@ -264,6 +267,17 @@ const APP = {
       `;
     } else {
       varTitle.classList.remove("active");
+    }
+  },
+  containerNoResults: function (active) {
+    let varTitleError = document.querySelector(".containerTitle");
+    if (active === true) {
+      varTitleError.classList.add("active");
+      varTitleError.innerHTML = `
+      <p>There is not result for <span>"${APP.inputvalue}"</span> inside the category <span>${APP.selectCategories}</span> try again</p>
+      `;
+    } else {
+      varTitleError.classList.remove("active");
     }
   },
   changeColorBlur: function (value) {
