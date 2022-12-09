@@ -90,6 +90,9 @@ const APP = {
   },
   creatInnerHtmlMovie: function (obj) {
     let newResult = obj["results"].slice(1, obj["results"].length);
+    let poster_pathObj = obj["results"][0].poster_path;
+    let original_titleObj = obj["results"][0].original_title;
+    let overview = obj["results"][0].overview;
     containerDiv.innerHTML = ``;
     APP.changeColorBlur(true);
     if (obj["results"][0].poster_path === null) {
