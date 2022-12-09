@@ -228,7 +228,7 @@ h6 {
   bottom: -0.2rem;
   right: 1.5rem;
   background-color: var(--color-secondary);
-  color: #000;
+  color: white;
   padding: 0.7rem 0.7rem 1.3rem;
   border-radius: 0.5rem 0.5rem 0 0;
   text-decoration: none;
@@ -243,7 +243,6 @@ h6 {
 .to-top:focus-visible {
   background-color: var(--color-primary);
   bottom: 0;
-  color: white;
   transform: translateY(0);
 }
 
@@ -412,6 +411,22 @@ h6 {
   backdrop-filter: blur(10px);
   color: white;
 }
+.banner .banner_blur.tvActive {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 0, 0, 0.608) 0%,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(61, 61, 61, 0) 100%
+  );
+}
+.banner .banner_blur.movieActive {
+  background: linear-gradient(
+    180deg,
+    var(--color-primary) 0%,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(61, 61, 61, 0) 100%
+  );
+}
 .banner_img {
   display: grid;
 }
@@ -466,6 +481,8 @@ h6 {
     padding-bottom: 5rem;
   }
   .banner_text {
+    margin-top: auto;
+    margin-bottom: auto;
     flex-direction: column;
     display: flex;
     text-align: left;
@@ -477,10 +494,8 @@ h6 {
   }
   .banner_text p {
     font-size: 1.125rem;
-    margin: auto;
   }
   .banner_text .btn {
-    margin-top: auto;
     align-self: start;
   }
 }

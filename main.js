@@ -19,6 +19,7 @@ const APP = {
     APP.init["movie"].addEventListener("click", APP.checkev);
     APP.init["tvShows"].addEventListener("click", APP.checkev);
     APP.init["btn"].addEventListener("click", APP.getInputValue);
+    APP.toTop();
   },
   checkev: function (ev) {
     let categories = ev.target.getAttribute("value");
@@ -60,6 +61,7 @@ const APP = {
           if (obj.results.length === 0) {
             APP.bannerImg(null);
             APP.deletBanner(null);
+            APP.changeColorBlur(false);
             APP.containerTitle(false);
             console.log("nada en results");
           } else {
@@ -138,6 +140,7 @@ const APP = {
       }
       APP.bannerImg(obj);
       APP["df"].append(li);
+      APP.changeColorBlur(true);
     });
   },
   deletBanner: function (response) {
@@ -202,9 +205,12 @@ const APP = {
       }
       APP.bannerImg(obj);
       APP["df"].append(li);
+      APP.changeColorBlur(true);
     });
   },
   bannerImg: function (obj) {
+    console.log(APP.selectCategories);
+    let blurBanner = document.querySelector(".banner_blur");
     console.log(obj);
     if (obj === null) {
       console.log("no back");
@@ -243,11 +249,39 @@ const APP = {
     if (active === true) {
       varTitle.classList.add("active");
       varTitle.innerHTML = `
-      <p>Here you can enjot all the result for <span>"${APP.inputvalue}"</span> inside the category <span>${APP.selectCategories}</span></p>
+      <p>Here you can enjoy all the result for <span>"${APP.inputvalue}"</span> inside the category <span>${APP.selectCategories}</span></p>
       `;
     } else {
       varTitle.classList.remove("active");
     }
+  },
+  changeColorBlur: function (value) {
+    let blurBanner = document.querySelector(".banner_blur");
+    console.log(APP.selectCategories);
+    if (value === true) {
+      if (APP.selectCategories == "tv") {
+        blurBanner.classList.remove("movieActive");
+        blurBanner.classList.add("tvActive");
+      } else {
+        blurBanner.classList.remove("tvActive");
+        blurBanner.classList.add("movieActive");
+      }
+    } else {
+      blurBanner.classList.remove("tvActive");
+      blurBanner.classList.remove("movieActive");
+    }
+  },
+  toTop: function () {
+    const toTop = document.querySelector(".to-top");
+    function handleToTop() {
+      if (window.scrollY > 150) {
+        toTop.classList.add("visible");
+      } else {
+        toTop.classList.remove("visible");
+      }
+    }
+    handleToTop();
+    toTop && window.addEventListener("scroll", handleToTop);
   },
 };
 
