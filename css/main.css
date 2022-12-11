@@ -269,6 +269,10 @@ h6 {
 .nav .nav_ul li {
   text-align: center;
 }
+.nav_li_categories {
+  display: flex;
+  justify-content: center;
+}
 .nav .nav_li_title h1 {
   color: white;
   margin-top: 0.3rem;
@@ -300,10 +304,6 @@ h6 {
 }
 .search_lg i {
   color: white;
-}
-.nav_li_categories {
-  display: flex;
-  justify-content: center;
 }
 .div_categories {
   display: grid;
@@ -396,8 +396,8 @@ h6 {
     font-size: 1.225rem;
   }
 }
-/* ? ------------ END nav---------- */
-
+/* ! ------------ END nav---------- */
+/* ? ------------  BANNER---------- */
 .banner .banner_blur {
   background: linear-gradient(
     180deg,
@@ -460,17 +460,6 @@ h6 {
 .banner_img .btn:focus {
   background-color: red;
 }
-.errorCatSelect.active {
-  display: flex;
-  justify-content: center;
-}
-.errorCatSelect {
-  display: none;
-}
-.errorCatSelect img {
-  width: 350px;
-  display: inline-block;
-}
 @media screen and (min-width: 60em) {
   .banner_img {
     grid-template-columns: repeat(2, 6fr);
@@ -498,14 +487,24 @@ h6 {
     align-self: start;
   }
 }
+/* ! ------------  END BANNER---------- */
+/* ? ------------  ERROR---------- */
+.errorCatSelect.active {
+  display: flex;
+  justify-content: center;
+}
+.errorCatSelect {
+  display: none;
+}
+.errorCatSelect img {
+  width: 350px;
+  display: inline-block;
+}
+/* ! ------------  END ERROR---------- */
 .containerTitle {
   display: none;
 }
-.containerTitle.active {
-  display: block;
-  text-align: center;
-  color: white;
-}
+
 .containerTitle p {
   margin: 1rem;
   font-size: 1.225rem;
@@ -515,6 +514,11 @@ h6 {
   font-weight: bold;
   margin-left: 0.3rem;
   margin-right: 0.3rem;
+}
+.containerTitle.active {
+  display: block;
+  text-align: center;
+  color: white;
 }
 .containerUl {
   margin-top: 5rem;
@@ -526,13 +530,57 @@ h6 {
   margin: 0;
 }
 .containerUl li {
+  background-color: #282828;
+
   display: grid;
 }
 .containerUl img {
-  margin-left: auto;
-  margin-right: auto;
+  aspect-ratio: 1/1;
+  width: 100%;
 }
 .containerUl a {
   color: white;
   text-decoration: none;
+}
+.containerUl .divCardText h3 {
+  text-align: center;
+}
+.containerUl .divCardText p {
+  text-align: justify;
+}
+.containerUl .divCardText p,
+.containerUl .divCardText h3 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media only screen and (min-width: 45em) {
+  .containerUl ul {
+    display: grid;
+    grid-template-columns: repeat(2, 6fr);
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+  }
+  .containerUl a {
+    position: relative;
+    min-width: 10rem;
+    color: white;
+    text-decoration: none;
+    display: grid;
+    flex-grow: initial;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+  }
+  .divCardText {
+    position: absolute;
+    color: red;
+  }
+  .divCardText.active {
+    background-color: #282828;
+    color: white;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+  }
 }
