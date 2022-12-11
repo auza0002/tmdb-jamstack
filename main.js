@@ -1,7 +1,6 @@
 const APP = {
   banner: document.querySelector(".banner"),
   KEY: "d1a21373ff4a38d759b3e1fdd4b4c09f",
-  CatImg: "https://placekitten.com/g/500/750",
   selectCategories: "",
   inputvalue: "",
   ul: document.querySelector("#ulInfo"),
@@ -74,14 +73,16 @@ const APP = {
             APP.containerNoResults(false);
             APP.deletBanner(true);
             APP.containerTitle(true);
+
             switch (APP.selectCategories) {
               case "movie":
                 APP.creatInnerHtmlMovie(obj);
+
                 break;
               case "tv":
                 APP.creatInnerHtmlTv(obj);
+
                 break;
-              default:
             }
           }
           APP["ul"].append(APP["df"]);
@@ -120,7 +121,7 @@ const APP = {
         : `./png/noimage.png`;
       const li = document.createElement("li");
       li.innerHTML = `
-      <a href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">     
+      <a class="cardContainerA" href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">     
             <img src='${newResultImg}'>
         <div class="divCardText">
           <h3>${item.original_title}</h3>
@@ -130,6 +131,7 @@ const APP = {
 
         `;
       APP["df"].append(li);
+      APP.checkScreen();
     });
   },
   creatInnerHtmlTv: function (obj) {
@@ -164,7 +166,7 @@ const APP = {
         : `./png/noimage.png`;
       const li = document.createElement("li");
       li.innerHTML = `
-        <a href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">
+        <a class="cardContainerA" href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">
             <img src='${newResultImg}'>  
         <div class="divCardText">
           <h3>${item.original_name}</h3>
@@ -173,7 +175,9 @@ const APP = {
         </a>
 
         `;
+
       APP["df"].append(li);
+      APP.checkScreen();
     });
   },
   deletBanner: function (response) {
@@ -266,6 +270,29 @@ const APP = {
     handleToTop();
     toTop && window.addEventListener("scroll", handleToTop);
   },
+  checkScreen: function () {
+    let ul = document.querySelectorAll("#ulInfo");
+    let ulConten = ul[0];
+    const bodyMain = document.getElementById("body");
+    const observer = new ResizeObserver((entries) => {
+      const bodyElement = entries[0]["contentRect"]["width"];
+      if (bodyElement > 720) {
+        ulConten.querySelectorAll(".divCardText").forEach((element) => {
+          element.classList.add("active");
+        });
+      } else {
+        ulConten.querySelectorAll(".divCardText").forEach((element) => {
+          element.classList.remove("active");
+        });
+      }
+    });
+    observer.observe(bodyMain);
+  },
 };
 
 document.addEventListener("DOMContentLoaded", APP.init.main);
+
+// ulConten.
+// forEach((element) => {
+//           console.log(element);
+//  });
