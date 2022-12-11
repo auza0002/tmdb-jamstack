@@ -120,10 +120,8 @@ const APP = {
         : `./png/noimage.png`;
       const li = document.createElement("li");
       li.innerHTML = `
-        <a href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">
-          <div class="divCardImg">
+      <a href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">     
             <img src='${newResultImg}'>
-          </div>
         <div class="divCardText">
           <h3>${item.original_title}</h3>
           <p>${item.overview}</p></div>
@@ -167,9 +165,7 @@ const APP = {
       const li = document.createElement("li");
       li.innerHTML = `
         <a href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">
-          <div class="divCardImg">
-            <img src='${newResultImg}'>
-          </div>
+            <img src='${newResultImg}'>  
         <div class="divCardText">
           <h3>${item.original_name}</h3>
           <p>${item.overview}</p></div>
