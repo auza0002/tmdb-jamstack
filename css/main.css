@@ -223,33 +223,6 @@ h6 {
 }
 
 /* ---------- To Top ---------- */
-.to-top {
-  position: fixed;
-  bottom: -0.2rem;
-  right: 1.5rem;
-  background-color: var(--color-secondary);
-  color: white;
-  padding: 0.7rem 0.7rem 1.3rem;
-  border-radius: 0.5rem 0.5rem 0 0;
-  text-decoration: none;
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1333333333);
-  transform: translateY(100%);
-}
-.to-top.visible {
-  transform: translateY(0);
-  transition: all 0.2s;
-}
-.to-top:hover,
-.to-top:focus-visible {
-  background-color: var(--color-primary);
-  bottom: 0;
-  transform: translateY(0);
-}
-
-.screen-reader-text {
-  position: absolute;
-  clip-path: polygon(0 0, 0.1% 0, 0.1% 0.1%, 0 0.1%);
-}
 
 /* ! ------------ START nav---------- */
 
@@ -576,7 +549,7 @@ h6 {
     padding-bottom: 2rem;
   }
   .divCardText {
-    background-color: transparent;
+    background-color: transparet;
     height: 100%;
     width: 100%;
     position: absolute;

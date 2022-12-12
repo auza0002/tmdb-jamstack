@@ -11,17 +11,37 @@ const APP = {
     tvShows: document.querySelector("#tvShows"),
     btn: document.querySelector("#searhform"),
     main() {
+      APP.checkState();
       APP.addListener();
     },
   },
   addListener: function () {
+    window.addEventListener("popstate", (ev) => {
+      console.log("popstate");
+      let urlSplit = location.hash.split("/").slice(1);
+      [APP.selectCategories, APP.inputvalue] = urlSplit;
+      let inputval = document.getElementById("keysssb");
+      let btnActive = APP.selectCategories;
+      inputval.value = APP.inputvalue;
+      APP.activeBtn(btnActive);
+      console.log(urlSplit);
+      history.pushState(
+        {
+          categories: APP.selectCategories,
+          inputvalue: APP.inputvalue,
+        },
+        "",
+        `index.html#/${APP.selectCategories}/${APP.inputvalue}`
+      );
+      APP.checkState();
+    });
     APP.init["movie"].addEventListener("click", APP.checkev);
     APP.init["tvShows"].addEventListener("click", APP.checkev);
     APP.init["btn"].addEventListener("submit", APP.getInputValue);
-    APP.toTop();
   },
   checkev: function (ev) {
-    let categories = ev.target.getAttribute("value");
+    let eve = ev.target;
+    let categories = eve.getAttribute("value");
     if (categories === movie) {
       APP.activeBtn(categories);
       console.log(categories);
@@ -29,15 +49,14 @@ const APP = {
     } else {
       APP.activeBtn(categories);
       APP.selectCategories = categories;
-      console.log(categories);
     }
+    console.log(eve);
   },
   getInputValue: function (ev) {
+    console.log(ev);
     ev.preventDefault();
     let inputElement = document.getElementById("keysssb").value.trim();
     console.log(inputElement);
-    let inputval = document.getElementById("keysssb");
-    inputval.value = ``;
     if (inputElement && APP.selectCategories) {
       APP.activeSelector(false);
       APP.inputvalue = inputElement;
@@ -76,12 +95,26 @@ const APP = {
 
             switch (APP.selectCategories) {
               case "movie":
+                history.pushState(
+                  {
+                    categories: APP.selectCategories,
+                    inputvalue: APP.inputvalue,
+                  },
+                  "",
+                  `index.html#/movie/${APP.inputvalue}`
+                );
                 APP.creatInnerHtmlMovie(obj);
-
                 break;
               case "tv":
+                history.pushState(
+                  {
+                    categories: APP.selectCategories,
+                    inputvalue: APP.inputvalue,
+                  },
+                  "",
+                  `index.html#/tv/${APP.inputvalue}`
+                );
                 APP.creatInnerHtmlTv(obj);
-
                 break;
             }
           }
@@ -258,18 +291,6 @@ const APP = {
       blurBanner.classList.remove("movieActive");
     }
   },
-  toTop: function () {
-    const toTop = document.querySelector(".to-top");
-    function handleToTop() {
-      if (window.scrollY > 150) {
-        toTop.classList.add("visible");
-      } else {
-        toTop.classList.remove("visible");
-      }
-    }
-    handleToTop();
-    toTop && window.addEventListener("scroll", handleToTop);
-  },
   checkScreen: function () {
     let ul = document.querySelectorAll("#ulInfo");
     let ulConten = ul[0];
@@ -288,11 +309,21 @@ const APP = {
     });
     observer.observe(bodyMain);
   },
+  checkState: function () {
+    console.log("llegue al checkState");
+    let urlSplit = location.hash.split("/").slice(1);
+    if (history.state) {
+      [APP.selectCategories, APP.inputvalue] = urlSplit;
+      let inputval = document.getElementById("keysssb");
+      let btnActive = APP.selectCategories;
+      inputval.value = APP.inputvalue;
+      APP.activeBtn(btnActive);
+    }
+    console.log("llegue al if del check");
+    console.log(
+      `categories "${APP.selectCategories}" input "${APP.inputvalue}"`
+    );
+  },
 };
 
 document.addEventListener("DOMContentLoaded", APP.init.main);
-
-// ulConten.
-// forEach((element) => {
-//           console.log(element);
-//  });
