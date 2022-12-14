@@ -1,6 +1,7 @@
 const APP = {
   banner: document.querySelector(".banner"),
   KEY: "d1a21373ff4a38d759b3e1fdd4b4c09f",
+  categoriesUrl: "",
   selectCategories: "",
   inputvalue: "",
   ul: document.querySelector("#ulInfo"),
@@ -11,30 +12,23 @@ const APP = {
     tvShows: document.querySelector("#tvShows"),
     btn: document.querySelector("#searhform"),
     main() {
-      APP.checkState();
       APP.addListener();
+      if (location.hash) {
+        const hashArray = location.hash.split("/");
+        if (document.body.id === "body") {
+          console.log("estoy en index");
+          const [, mediaType, query] = hashArray;
+          console.log(mediaType, query);
+        } else {
+          const [, mediaType, id, title] = hashArray;
+          console.log(mediaType, id, title);
+          // APP.fetchCredits(mediaType, id);
+        }
+      }
     },
   },
   addListener: function () {
-    window.addEventListener("popstate", (ev) => {
-      console.log("popstate");
-      let urlSplit = location.hash.split("/").slice(1);
-      [APP.selectCategories, APP.inputvalue] = urlSplit;
-      let inputval = document.getElementById("keysssb");
-      let btnActive = APP.selectCategories;
-      inputval.value = APP.inputvalue;
-      APP.activeBtn(btnActive);
-      console.log(urlSplit);
-      history.pushState(
-        {
-          categories: APP.selectCategories,
-          inputvalue: APP.inputvalue,
-        },
-        "",
-        `index.html#/${APP.selectCategories}/${APP.inputvalue}`
-      );
-      APP.checkState();
-    });
+    window.addEventListener("popstate", APP.popstate);
     APP.init["movie"].addEventListener("click", APP.checkev);
     APP.init["tvShows"].addEventListener("click", APP.checkev);
     APP.init["btn"].addEventListener("submit", APP.getInputValue);
@@ -42,7 +36,7 @@ const APP = {
   checkev: function (ev) {
     let eve = ev.target;
     let categories = eve.getAttribute("value");
-    if (categories === movie) {
+    if (categories === "movie") {
       APP.activeBtn(categories);
       console.log(categories);
       APP.selectCategories = categories;
@@ -50,77 +44,61 @@ const APP = {
       APP.activeBtn(categories);
       APP.selectCategories = categories;
     }
-    console.log(eve);
   },
   getInputValue: function (ev) {
-    console.log(ev);
     ev.preventDefault();
     let inputElement = document.getElementById("keysssb").value.trim();
-    console.log(inputElement);
+
     if (inputElement && APP.selectCategories) {
       APP.activeSelector(false);
       APP.inputvalue = inputElement;
-      APP.getData();
+      console.log(APP.selectCategories, inputElement);
+      history.pushState(
+        {},
+        "",
+        "#" + `/${APP.selectCategories}/${inputElement}`
+      );
+      APP.getData(APP.selectCategories, inputElement);
     } else {
       APP.activeSelector(true);
     }
   },
-  getData: function () {
-    if (APP.selectCategories && APP.inputvalue) {
-      APP["ul"].innerHTML = ``;
-      let url = `https://api.themoviedb.org/3/search/${APP.selectCategories}?query=${APP.inputvalue}&api_key=${APP.KEY}`;
-      fetch(url)
-        .then((response) => {
-          if (!response.ok) {
-            console.log("no response");
-          }
-          console.log(response);
-          return response;
-        })
-        .then((response) => response.json())
-        .then((obj) => {
-          console.log("este es el obj despues de hacer el fecth", obj);
+
+  getData: function (type, query) {
+    APP["ul"].innerHTML = ``;
+    let url = `https://api.themoviedb.org/3/search/${type}?query=${query}&api_key=${APP.KEY}`;
+    fetch(url)
+      .then((response) => {
+        console.log(response);
+        if (!response.ok) {
+          console.log("no response");
+        }
+        return response;
+      })
+      .then((response) => response.json())
+      .then((obj) => {
+        APP.containerTitle(false);
+        if (obj.results.length === 0) {
+          APP.bannerImg(null);
+          APP.deletBanner(null);
+          APP.changeColorBlur(false);
           APP.containerTitle(false);
-
-          if (obj.results.length === 0) {
-            APP.bannerImg(null);
-            APP.deletBanner(null);
-            APP.changeColorBlur(false);
-            APP.containerTitle(false);
-            APP.containerNoResults(true);
-          } else {
-            APP.containerNoResults(false);
-            APP.deletBanner(true);
-            APP.containerTitle(true);
-
-            switch (APP.selectCategories) {
-              case "movie":
-                history.pushState(
-                  {
-                    categories: APP.selectCategories,
-                    inputvalue: APP.inputvalue,
-                  },
-                  "",
-                  `index.html#/movie/${APP.inputvalue}`
-                );
-                APP.creatInnerHtmlMovie(obj);
-                break;
-              case "tv":
-                history.pushState(
-                  {
-                    categories: APP.selectCategories,
-                    inputvalue: APP.inputvalue,
-                  },
-                  "",
-                  `index.html#/tv/${APP.inputvalue}`
-                );
-                APP.creatInnerHtmlTv(obj);
-                break;
-            }
+          APP.containerNoResults(true);
+        } else {
+          APP.containerNoResults(false);
+          APP.deletBanner(true);
+          APP.containerTitle(true);
+          switch (APP.selectCategories) {
+            case "movie":
+              APP.creatInnerHtmlMovie(obj);
+              break;
+            case "tv":
+              APP.creatInnerHtmlTv(obj);
+              break;
           }
-          APP["ul"].append(APP["df"]);
-        });
-    }
+        }
+        APP["ul"].append(APP["df"]);
+      });
   },
   creatInnerHtmlMovie: function (obj) {
     APP.bannerImg(obj);
@@ -221,8 +199,6 @@ const APP = {
     }
   },
   bannerImg: function (obj) {
-    console.log("llegue a banner IMG");
-    console.log(obj);
     if (obj === null) {
       APP.banner.setAttribute(`style`, `background-image: none;`);
     } else if (obj["results"][0].backdrop_path === null) {
@@ -309,21 +285,25 @@ const APP = {
     });
     observer.observe(bodyMain);
   },
-  checkState: function () {
-    console.log("llegue al checkState");
-    let urlSplit = location.hash.split("/").slice(1);
-    if (history.state) {
-      [APP.selectCategories, APP.inputvalue] = urlSplit;
-      let inputval = document.getElementById("keysssb");
-      let btnActive = APP.selectCategories;
-      inputval.value = APP.inputvalue;
-      APP.activeBtn(btnActive);
+  popstate: function () {
+    if (location.hash) {
+      console.log("popstate");
+      let popstateSelector = "";
+      let popstateInputValue = "";
+      let urlSplit = location.hash.split("/").slice(1);
+
+      [popstateSelector, popstateInputValue] = urlSplit;
+      if (document.body.id === "body") {
+        console.log("el split si sirve dentro del popstate");
+        let inputval = document.getElementById("keysssb");
+        let btnActive = popstateSelector;
+        inputval.value = popstateInputValue;
+        APP.activeBtn(btnActive);
+        APP.getData(popstateSelector, popstateInputValue);
+      }
     }
-    console.log("llegue al if del check");
-    console.log(
-      `categories "${APP.selectCategories}" input "${APP.inputvalue}"`
-    );
   },
+  getDataCredits: function (type, id) {},
 };
 
 document.addEventListener("DOMContentLoaded", APP.init.main);
