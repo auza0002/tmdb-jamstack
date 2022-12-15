@@ -355,6 +355,12 @@ h6 {
     padding: 0.5rem;
     transition: all 0.3s;
   }
+  .credits_popularity {
+    border-radius: 5px;
+    padding: 0.3rem;
+    display: inline-block;
+    background-color: var(--color-secondary);
+  }
 }
 @media screen and (min-width: 60em) {
   .nav .nav_ul {
@@ -464,14 +470,25 @@ h6 {
 /* ? ------------  ERROR---------- */
 .errorCatSelect.active {
   display: flex;
-  justify-content: center;
+  width: 200px;
+  margin: auto;
 }
 .errorCatSelect {
   display: none;
 }
-.errorCatSelect img {
-  width: 350px;
-  display: inline-block;
+@media screen and (min-width: 45em) {
+  .errorCatSelect.active {
+    display: flex;
+    width: 300px;
+    margin: auto;
+  }
+}
+@media screen and (min-width: 60em) {
+  .errorCatSelect.active {
+    display: flex;
+    width: 350px;
+    margin: auto;
+  }
 }
 /* ! ------------  END ERROR---------- */
 .containerTitle {
@@ -578,5 +595,42 @@ h6 {
     gap: 1rem;
     padding: 0;
     margin: 0;
+  }
+}
+.credits_ul {
+  display: grid;
+  gap: 3rem;
+  padding: 0;
+  margin-top: 4rem;
+}
+.credits_li {
+  background-color: #282828;
+  display: grid;
+}
+.credits_li img {
+  aspect-ratio: 1/1;
+  width: 100%;
+}
+.credits_li_div {
+  color: white;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media only screen and (min-width: 45em) {
+  .credits_ul {
+    display: grid;
+    grid-template-columns: repeat(2, 6fr);
+    gap: 1rem;
+    padding: 0;
+    margin-top: 3rem;
+  }
+}
+@media only screen and (min-width: 60em) {
+  .credits_ul {
+    display: grid;
+    grid-template-columns: repeat(3, 4fr);
+    gap: 1rem;
+    padding: 0;
+    margin-top: 2rem;
   }
 }

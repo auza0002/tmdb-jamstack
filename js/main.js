@@ -18,7 +18,9 @@ const APP = {
         if (document.body.id === "body") {
           console.log("estoy en index");
           const [, mediaType, query] = splitArray;
+          APP.inputvalue = query;
           console.log(mediaType, query);
+          console.log("yo soy el input val", APP.inputvalue);
           let inputval = document.getElementById("keysssb");
           inputval.value = decodeURIComponent(query);
           APP.activeBtn(mediaType);
@@ -26,9 +28,13 @@ const APP = {
           APP.selectCategories = btnSelect;
           APP.getData(mediaType, query);
         } else {
-          const [, mediaType, id] = splitArray;
+          const [, mediaType, id, title] = splitArray;
+          console.log(APP.inputvalue);
           console.log(mediaType, id);
-          APP.getDataCredits(mediaType, id);
+          APP.activeBtn(mediaType);
+          let btnSelect = mediaType;
+          APP.selectCategories = btnSelect;
+          APP.getDataCredits(mediaType, id, title);
         }
       }
     },
@@ -142,7 +148,7 @@ const APP = {
     <div class="banner_text">    
         <h2>${original_titleObj}</h2>
         <p>${overviewObj}</p>
-        <a class="btn" href=credits.html#/movie/${id}>
+        <a class="btn" href=credits.html#/movie/${id}/${APP.inputvalue}>
             Learn more
         </a>
         </div>
@@ -150,17 +156,21 @@ const APP = {
     `;
     let newResult = obj["results"].slice(1, obj["results"].length);
     newResult.forEach((item) => {
+      let overview = item.overview
+        ? item.overview
+        : `"THIS TITLE DOES NOT HAVE A DESCRIPTION"`;
       let newResultImg = item.poster_path
         ? `http://image.tmdb.org/t/p/w500/${item.poster_path}`
         : `./png/noimage.png`;
       const li = document.createElement("li");
       li.innerHTML = `
-      <a class="cardContainerA" href=credits.html#/movie/${item.id}>     
+      <a class="cardContainerA" href=credits.html#/movie/${item.id}/${APP.inputvalue}>     
             <img src='${newResultImg}'>
         <div class="divCardText">
           <h3>${item.original_title}</h3>
-          <p>${item.overview}</p></div>
-        </div>
+          <p>${overview}</p>
+          </div>
+        
         </a>
         `;
       APP["df"].append(li);
@@ -186,7 +196,7 @@ const APP = {
     <div class="banner_text">    
         <h2>${original_nameObj}</h2>
         <p>${overviewObj}</p>
-        <a class="btn" href=credits.html#/tv/${id}>
+        <a class="btn" href=credits.html#/tv/${id}/${APP.inputvalue}>
             Learn more
         </a>
         </div>
@@ -194,17 +204,20 @@ const APP = {
     `;
     let newResult = obj["results"].slice(1, obj["results"].length);
     newResult.forEach((item) => {
+      let overview = item.overview
+        ? item.overview
+        : `"THIS TITLE DOES NOT HAVE A DESCRIPTION"`;
       let newResultImg = item.poster_path
         ? `http://image.tmdb.org/t/p/w500/${item.poster_path}`
         : `./png/noimage.png`;
       const li = document.createElement("li");
       li.innerHTML = `
-        <a class="cardContainerA" href=credits.html#/tv/${item.id}>
+        <a class="cardContainerA" href=credits.html#/tv/${item.id}/${APP.inputvalue}>
             <img src='${newResultImg}'>  
         <div class="divCardText">
           <h3>${item.original_name}</h3>
-          <p>${item.overview}</p></div>
-        </div>
+          <p>${overview}</p>
+          </div>
         </a>
 
         `;
@@ -334,7 +347,9 @@ const APP = {
       }
     }
   },
-  getDataCredits: function (type, id) {
+  getDataCredits: function (type, id, title) {
+    let inputval = document.getElementById("keysssb");
+    inputval.value = decodeURIComponent(title);
     let url = `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${APP.KEY}`;
     fetch(url)
       .then((response) => {
@@ -345,9 +360,12 @@ const APP = {
       })
       .then((response) => response.json())
       .then((obj) => {
-        if (obj["total_results" == 0]) {
+        console.log(obj);
+        if (obj["cast"] == 0) {
           console.log("no results");
+          APP.containerNoResults(true);
         } else {
+          APP.containerTitle(true);
           APP.creditsConstructor(obj);
         }
       });
@@ -356,14 +374,23 @@ const APP = {
     let ulContainer = document.querySelector(".credits_ul");
     ulContainer.innerHTML = obj["cast"]
       .map((element) => {
+        let name = element.name ? element.name : `"NO name found"`;
+        let popularity = element.popularity
+          ? element.popularity
+          : `"There is no information about it"`;
+        let character = element.character
+          ? element.character
+          : `"There is no information about it"`;
         let img_path = element["profile_path"]
           ? `https://image.tmdb.org/t/p/original/${element["profile_path"]}`
           : "./png/noimage.png";
-        return ` <li>
+        return ` <li class="credits_li">
         <img src ='${img_path}'>
-        <h2>${element.name}</h2>
-        <p>As ${element.character}</p>
-        <p>Popularity ${element.popularity}</p>
+        <div class="credits_li_div">
+        <h2>${name}</h2>
+        <p class="credits_as">As "${character}"</p>
+        <p class="credits_popularity">Popularity ${popularity}</p>
+        </div>
          </li>
         `;
       })

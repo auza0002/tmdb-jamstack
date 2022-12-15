@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <!-- !----------- START FONT ------------>
     <link
       rel="stylesheet"
@@ -26,10 +27,7 @@
   </head>
   <body id="credits">
     <!-- !  ---------START Tabbing and focus states------------>
-    <ul class="skip-list">
-      <li><a href="#nav">Skip to main navigation</a></li>
-      <li><a href="#main">Skip to main content</a></li>
-    </ul>
+
     <!-- ?  END Tabbing and focus states -->
     <!-- !----------- START HEADER------------>
     <header class="header" id="header">
@@ -69,7 +67,10 @@
     <!-- ?----------- END HEADER------------>
     <!-- !----------- START MAIN------------>
     <main class="main" id="main">
-      <ul class="credits_ul"></ul>
+      <section class="container">
+        <div class="containerTitle"></div>
+        <ul role="list" class="credits_ul"></ul>
+      </section>
     </main>
     <!-- ?----------- END MAIN------------>
     <!-- !----------- START FOOTER------------>
@@ -80,7 +81,7 @@
 
     <!-- ?----------- END FOOTER------------>
     <!-- !-----------MAIN JS------------->
-    <script src="./main.js" type="module" defer></script>
+    <script src="./js/main.js" type="module" defer></script>
     <!-- ?-----------END MAIN JS------------->
   </body>
 </html>
