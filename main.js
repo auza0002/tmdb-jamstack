@@ -55,18 +55,22 @@ const APP = {
   getInputValue: function (ev) {
     ev.preventDefault();
     let inputElement = document.getElementById("keysssb").value.trim();
-    if (inputElement && APP.selectCategories) {
-      APP.activeSelector(false);
-      APP.inputvalue = inputElement;
-      console.log(APP.selectCategories, inputElement);
-      history.pushState(
-        {},
-        "",
-        "#" + `/${APP.selectCategories}/${inputElement}`
-      );
-      APP.getData(APP.selectCategories, inputElement);
+    if (document.body.id === "body") {
+      if (inputElement && APP.selectCategories) {
+        APP.activeSelector(false);
+        APP.inputvalue = inputElement;
+        console.log(APP.selectCategories, inputElement);
+        history.pushState(
+          {},
+          "",
+          "#" + `/${APP.selectCategories}/${inputElement}`
+        );
+        APP.getData(APP.selectCategories, inputElement);
+      } else {
+        APP.activeSelector(true);
+      }
     } else {
-      APP.activeSelector(true);
+      location.href = `index.html#/${APP.selectCategories}/${inputElement}`;
     }
   },
   getData: function (type, query) {
