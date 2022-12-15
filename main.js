@@ -14,15 +14,21 @@ const APP = {
     main() {
       APP.addListener();
       if (location.hash) {
-        const hashArray = location.hash.split("/");
+        const splitArray = location.hash.split("/");
         if (document.body.id === "body") {
           console.log("estoy en index");
-          const [, mediaType, query] = hashArray;
+          const [, mediaType, query] = splitArray;
           console.log(mediaType, query);
+          let inputval = document.getElementById("keysssb");
+          inputval.value = decodeURIComponent(query);
+          APP.activeBtn(mediaType);
+          let btnSelect = mediaType;
+          APP.selectCategories = btnSelect;
+          APP.getData(mediaType, query);
         } else {
-          const [, mediaType, id, title] = hashArray;
-          console.log(mediaType, id, title);
-          // APP.fetchCredits(mediaType, id);
+          const [, mediaType, id] = splitArray;
+          console.log(mediaType, id);
+          APP.getDataCredits(mediaType, id);
         }
       }
     },
@@ -42,13 +48,13 @@ const APP = {
       APP.selectCategories = categories;
     } else {
       APP.activeBtn(categories);
+      console.log(categories);
       APP.selectCategories = categories;
     }
   },
   getInputValue: function (ev) {
     ev.preventDefault();
     let inputElement = document.getElementById("keysssb").value.trim();
-
     if (inputElement && APP.selectCategories) {
       APP.activeSelector(false);
       APP.inputvalue = inputElement;
@@ -63,13 +69,13 @@ const APP = {
       APP.activeSelector(true);
     }
   },
-
   getData: function (type, query) {
+    console.log(type, query);
+    console.log(APP.selectCategories);
     APP["ul"].innerHTML = ``;
     let url = `https://api.themoviedb.org/3/search/${type}?query=${query}&api_key=${APP.KEY}`;
     fetch(url)
       .then((response) => {
-        console.log(response);
         if (!response.ok) {
           console.log("no response");
         }
@@ -88,12 +94,25 @@ const APP = {
           APP.containerNoResults(false);
           APP.deletBanner(true);
           APP.containerTitle(true);
+
           switch (APP.selectCategories) {
             case "movie":
+              console.log(
+                "la categoria que seleccione es",
+                APP.selectCategories
+              );
+              console.log("seleccione movie");
               APP.creatInnerHtmlMovie(obj);
+              console.log("llegue a movie");
               break;
             case "tv":
+              console.log(
+                "la categoria que seleccione es",
+                APP.selectCategories
+              );
               APP.creatInnerHtmlTv(obj);
+              console.log("seleccione tv");
+              console.log("llegue a tv");
               break;
           }
         }
@@ -104,6 +123,7 @@ const APP = {
     APP.bannerImg(obj);
     APP.changeColorBlur(true);
     let original_titleObj = obj["results"][0].original_title;
+    let id = obj["results"][0].id;
     let poster_pathObj = obj["results"][0].poster_path
       ? `http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}`
       : `./png/noimage.png`;
@@ -118,8 +138,7 @@ const APP = {
     <div class="banner_text">    
         <h2>${original_titleObj}</h2>
         <p>${overviewObj}</p>
-        <a class="btn" 
-          href="https://api.themoviedb.org/3/tv/${obj["results"][0].id}/credits?api_key=${APP.KEY}">
+        <a class="btn" href=credits.html#/movie/${id}>
             Learn more
         </a>
         </div>
@@ -132,14 +151,13 @@ const APP = {
         : `./png/noimage.png`;
       const li = document.createElement("li");
       li.innerHTML = `
-      <a class="cardContainerA" href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">     
+      <a class="cardContainerA" href=credits.html#/movie/${item.id}>     
             <img src='${newResultImg}'>
         <div class="divCardText">
           <h3>${item.original_title}</h3>
           <p>${item.overview}</p></div>
         </div>
         </a>
-
         `;
       APP["df"].append(li);
       APP.checkScreen();
@@ -149,6 +167,7 @@ const APP = {
     APP.bannerImg(obj);
     APP.changeColorBlur(true);
     let original_nameObj = obj["results"][0].original_name;
+    let id = obj["results"][0].id;
     let poster_pathObj = obj["results"][0].poster_path
       ? `http://image.tmdb.org/t/p/w500/${obj["results"][0].poster_path}`
       : `./png/noimage.png`;
@@ -163,8 +182,7 @@ const APP = {
     <div class="banner_text">    
         <h2>${original_nameObj}</h2>
         <p>${overviewObj}</p>
-        <a class="btn" 
-          href="https://api.themoviedb.org/3/tv/${obj["results"][0].id}/credits?api_key=${APP.KEY}">
+        <a class="btn" href=credits.html#/tv/${id}>
             Learn more
         </a>
         </div>
@@ -177,7 +195,7 @@ const APP = {
         : `./png/noimage.png`;
       const li = document.createElement("li");
       li.innerHTML = `
-        <a class="cardContainerA" href="https://api.themoviedb.org/3/tv/${item.id}/credits?api_key=${APP.KEY}">
+        <a class="cardContainerA" href=credits.html#/tv/${item.id}>
             <img src='${newResultImg}'>  
         <div class="divCardText">
           <h3>${item.original_name}</h3>
@@ -235,7 +253,11 @@ const APP = {
     if (active === true) {
       varTitle.classList.add("active");
       varTitle.innerHTML = `
-      <p>Here you can enjoy all the result for <span>"${APP.inputvalue}"</span> inside the category <span>${APP.selectCategories}</span></p>
+      <p>Here you can enjoy all the result for <span>"${document
+        .getElementById("keysssb")
+        .value.trim()}"</span> inside the category <span>${
+        APP.selectCategories
+      }</span></p>
       `;
     } else {
       varTitle.classList.remove("active");
@@ -246,7 +268,11 @@ const APP = {
     if (active === true) {
       varTitleError.classList.add("active");
       varTitleError.innerHTML = `
-      <p>There is not result for <span>"${APP.inputvalue}"</span> inside the category <span>${APP.selectCategories}</span> try again</p>
+      <p>There is not result for <span>"${document
+        .getElementById("keysssb")
+        .value.trim()}"</span> inside the category <span>${
+        APP.selectCategories
+      }</span> try again</p>
       `;
     } else {
       varTitleError.classList.remove("active");
@@ -295,15 +321,50 @@ const APP = {
       [popstateSelector, popstateInputValue] = urlSplit;
       if (document.body.id === "body") {
         console.log("el split si sirve dentro del popstate");
-        let inputval = document.getElementById("keysssb");
         let btnActive = popstateSelector;
-        inputval.value = popstateInputValue;
+        APP.selectCategories = popstateSelector;
         APP.activeBtn(btnActive);
+        let inputval = document.getElementById("keysssb");
+        inputval.value = decodeURIComponent(popstateInputValue);
         APP.getData(popstateSelector, popstateInputValue);
       }
     }
   },
-  getDataCredits: function (type, id) {},
+  getDataCredits: function (type, id) {
+    let url = `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${APP.KEY}`;
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          console.log("no response");
+        }
+        return response;
+      })
+      .then((response) => response.json())
+      .then((obj) => {
+        if (obj["total_results" == 0]) {
+          console.log("no results");
+        } else {
+          APP.creditsConstructor(obj);
+        }
+      });
+  },
+  creditsConstructor: function (obj) {
+    let ulContainer = document.querySelector(".credits_ul");
+    ulContainer.innerHTML = obj["cast"]
+      .map((element) => {
+        let img_path = element["profile_path"]
+          ? `https://image.tmdb.org/t/p/original/${element["profile_path"]}`
+          : "./png/noimage.png";
+        return ` <li>
+        <img src ='${img_path}'>
+        <h2>${element.name}</h2>
+        <p>As ${element.character}</p>
+        <p>Popularity ${element.popularity}</p>
+         </li>
+        `;
+      })
+      .join("");
+  },
 };
 
 document.addEventListener("DOMContentLoaded", APP.init.main);

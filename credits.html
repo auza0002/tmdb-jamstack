@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- !----------- START FONT ------------>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&family=Oswald:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- ?----------- END FOND------------>
+    <!-- !----------- START CSS------------>
+    <link rel="stylesheet" type="text/css" href="./css/main.css" />
+    <!-- ?----------- END CSS------------>
+    <title>Credits+</title>
+  </head>
+  <body id="credits">
+    <!-- !  ---------START Tabbing and focus states------------>
+    <ul class="skip-list">
+      <li><a href="#nav">Skip to main navigation</a></li>
+      <li><a href="#main">Skip to main content</a></li>
+    </ul>
+    <!-- ?  END Tabbing and focus states -->
+    <!-- !----------- START HEADER------------>
+    <header class="header" id="header">
+      <section class="container movie_container">
+        <nav class="nav">
+          <ul class="nav_ul" role="list">
+            <li class="nav_li_title">
+              <h1>Movi<span>e+</span></h1>
+            </li>
+            <li id="categories" class="nav_li_categories">
+              <div class="div_categories">
+                <a id="movie" class="movie" value="movie" src="/">Movies</a>
+                <a id="tvShows" class="tvShows" value="tv" src="/">TV Shows</a>
+              </div>
+            </li>
+            <li class="nav_li_search">
+              <div class="search_lg">
+                <form method="get" action="/" id="searhform">
+                  <input
+                    aria-label="this is an input and here you can type the Tv or Movie you are looking for"
+                    type="search"
+                    id="keysssb"
+                    name="s"
+                    autocomplete="off"
+                    placeholder="Type here for search..."
+                  />
+                  <button type="submit" aria-label="search button">
+                    <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+                  </button>
+                </form>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </section>
+    </header>
+    <!-- ?----------- END HEADER------------>
+    <!-- !----------- START MAIN------------>
+    <main class="main" id="main">
+      <ul class="credits_ul"></ul>
+    </main>
+    <!-- ?----------- END MAIN------------>
+    <!-- !----------- START FOOTER------------>
+
+    <footer>
+      <p id="output1"></p>
+    </footer>
+
+    <!-- ?----------- END FOOTER------------>
+    <!-- !-----------MAIN JS------------->
+    <script src="./main.js" type="module" defer></script>
+    <!-- ?-----------END MAIN JS------------->
+  </body>
+</html>
