@@ -1,3 +1,4 @@
+import { NetworkError } from "./utuli.js";
 const APP = {
   banner: document.querySelector(".banner"),
   KEY: "d1a21373ff4a38d759b3e1fdd4b4c09f",
@@ -88,6 +89,7 @@ const APP = {
       .then((response) => {
         if (!response.ok) {
           console.log("no response");
+          throw new NetworkError("Failed API Call", response);
         }
         return response;
       })
@@ -101,6 +103,7 @@ const APP = {
           APP.containerTitle(false);
           APP.containerNoResults(true);
         } else {
+          APP.errorCategories(false);
           APP.containerNoResults(false);
           APP.deletBanner(true);
           APP.containerTitle(true);
@@ -127,6 +130,9 @@ const APP = {
           }
         }
         APP["ul"].append(APP["df"]);
+      })
+      .catch((err) => {
+        return APP.errorCategories(true, err);
       });
   },
   creatInnerHtmlMovie: function (obj) {
@@ -355,6 +361,7 @@ const APP = {
       .then((response) => {
         if (!response.ok) {
           console.log("no response");
+          throw new NetworkError("Failed API Call", response);
         }
         return response;
       })
@@ -365,9 +372,13 @@ const APP = {
           console.log("no results");
           APP.containerNoResults(true);
         } else {
+          APP.errorCategories(false);
           APP.containerTitle(true);
           APP.creditsConstructor(obj);
         }
+      })
+      .catch((err) => {
+        return APP.errorCategoriesCredtis(true, err);
       });
   },
   creditsConstructor: function (obj) {
@@ -395,6 +406,47 @@ const APP = {
         `;
       })
       .join("");
+  },
+  errorCategories: function (show, err) {
+    let divContainer = document.querySelector(".div_error");
+    if (show) {
+      console.log(err.status);
+      let errorP = document.querySelector(".error_p");
+      APP.bannerImg(null);
+      APP.deletBanner(null);
+      APP.changeColorBlur(false);
+      APP.containerTitle(false);
+      APP.containerNoResults(false);
+      if (err.status === 404) {
+        errorP.innerHTML = `Error ${err.status}, try again. no images found`;
+        console.warn(err);
+        divContainer.classList.add("active");
+      } else {
+        console.warn(err);
+        divContainer.classList.add("active");
+        return (errorP.innerHTML = `there is something wrong, try again. double check your connection`);
+      }
+    } else {
+      divContainer.classList.remove("active");
+    }
+  },
+  errorCategoriesCredtis: function (show, err) {
+    let divContainer = document.querySelector(".div_error");
+    if (show) {
+      console.log(err.status);
+      let errorP = document.querySelector(".error_p");
+      if (err.status === 404) {
+        errorP.innerHTML = `Error ${err.status}, try again. no images found`;
+        console.warn(err);
+        divContainer.classList.add("active");
+      } else {
+        console.warn(err);
+        divContainer.classList.add("active");
+        return (errorP.innerHTML = `there is something wrong, try again. double check your connection`);
+      }
+    } else {
+      divContainer.classList.remove("active");
+    }
   },
 };
 
