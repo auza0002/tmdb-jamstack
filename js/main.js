@@ -1,4 +1,4 @@
-import { NetworkError } from "./utuli.js";
+import { NetworkError } from "./utilities.js";
 const APP = {
   banner: document.querySelector(".banner"),
   KEY: "d1a21373ff4a38d759b3e1fdd4b4c09f",
@@ -11,17 +11,15 @@ const APP = {
   init: {
     movie: document.querySelector("#movie"),
     tvShows: document.querySelector("#tvShows"),
-    btn: document.querySelector("#searhform"),
+    btn: document.querySelector("#searchform"),
     main() {
       APP.addListener();
       if (location.hash) {
         const splitArray = location.hash.split("/");
         if (document.body.id === "body") {
-          console.log("estoy en index");
           const [, mediaType, query] = splitArray;
           APP.inputvalue = query;
-          console.log(mediaType, query);
-          console.log("yo soy el input val", APP.inputvalue);
+
           let inputval = document.getElementById("keysssb");
           inputval.value = decodeURIComponent(query);
           APP.activeBtn(mediaType);
@@ -30,8 +28,7 @@ const APP = {
           APP.getData(mediaType, query);
         } else {
           const [, mediaType, id, title] = splitArray;
-          console.log(APP.inputvalue);
-          console.log(mediaType, id);
+
           APP.activeBtn(mediaType);
           let btnSelect = mediaType;
           APP.selectCategories = btnSelect;
@@ -51,11 +48,11 @@ const APP = {
     let categories = eve.getAttribute("value");
     if (categories === "movie") {
       APP.activeBtn(categories);
-      console.log(categories);
+
       APP.selectCategories = categories;
     } else {
       APP.activeBtn(categories);
-      console.log(categories);
+
       APP.selectCategories = categories;
     }
   },
@@ -66,7 +63,7 @@ const APP = {
       if (inputElement && APP.selectCategories) {
         APP.activeSelector(false);
         APP.inputvalue = inputElement;
-        console.log(APP.selectCategories, inputElement);
+
         history.pushState(
           {},
           "",
@@ -81,14 +78,11 @@ const APP = {
     }
   },
   getData: function (type, query) {
-    console.log(type, query);
-    console.log(APP.selectCategories);
     APP["ul"].innerHTML = ``;
     let url = `https://api.themoviedb.org/3/search/${type}?query=${query}&api_key=${APP.KEY}`;
     fetch(url)
       .then((response) => {
         if (!response.ok) {
-          console.log("no response");
           throw new NetworkError("Failed API Call", response);
         }
         return response;
@@ -110,22 +104,12 @@ const APP = {
 
           switch (APP.selectCategories) {
             case "movie":
-              console.log(
-                "la categoria que seleccione es",
-                APP.selectCategories
-              );
-              console.log("seleccione movie");
               APP.creatInnerHtmlMovie(obj);
-              console.log("llegue a movie");
+
               break;
             case "tv":
-              console.log(
-                "la categoria que seleccione es",
-                APP.selectCategories
-              );
               APP.creatInnerHtmlTv(obj);
-              console.log("seleccione tv");
-              console.log("llegue a tv");
+
               break;
           }
         }
@@ -276,7 +260,7 @@ const APP = {
     if (active === true) {
       varTitle.classList.add("active");
       varTitle.innerHTML = `
-      <p>Here you can enjoy all the result for <span>"${document
+      <p>Here you can enjoy all the results for <span>"${document
         .getElementById("keysssb")
         .value.trim()}"</span> inside the category <span>${
         APP.selectCategories
@@ -336,14 +320,12 @@ const APP = {
   },
   popstate: function () {
     if (location.hash) {
-      console.log("popstate");
       let popstateSelector = "";
       let popstateInputValue = "";
       let urlSplit = location.hash.split("/").slice(1);
 
       [popstateSelector, popstateInputValue] = urlSplit;
       if (document.body.id === "body") {
-        console.log("el split si sirve dentro del popstate");
         let btnActive = popstateSelector;
         APP.selectCategories = popstateSelector;
         APP.activeBtn(btnActive);
@@ -360,16 +342,13 @@ const APP = {
     fetch(url)
       .then((response) => {
         if (!response.ok) {
-          console.log("no response");
           throw new NetworkError("Failed API Call", response);
         }
         return response;
       })
       .then((response) => response.json())
       .then((obj) => {
-        console.log(obj);
         if (obj["cast"] == 0) {
-          console.log("no results");
           APP.containerNoResults(true);
         } else {
           APP.errorCategories(false);
@@ -410,7 +389,6 @@ const APP = {
   errorCategories: function (show, err) {
     let divContainer = document.querySelector(".div_error");
     if (show) {
-      console.log(err.status);
       let errorP = document.querySelector(".error_p");
       APP.bannerImg(null);
       APP.deletBanner(null);
@@ -433,7 +411,6 @@ const APP = {
   errorCategoriesCredtis: function (show, err) {
     let divContainer = document.querySelector(".div_error");
     if (show) {
-      console.log(err.status);
       let errorP = document.querySelector(".error_p");
       if (err.status === 404) {
         errorP.innerHTML = `Error ${err.status}, try again. no images found`;
