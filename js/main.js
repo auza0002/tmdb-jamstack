@@ -260,11 +260,11 @@ const APP = {
     if (active === true) {
       varTitle.classList.add("active");
       varTitle.innerHTML = `
-      <p>Here you can enjoy all the results for <span>"${document
+      <p>Results for <span>"${document
         .getElementById("keysssb")
-        .value.trim()}"</span> inside the category <span>${
+        .value.trim()}"</span> in the <span>${
         APP.selectCategories
-      }</span></p>
+      }</span> category</p>
       `;
     } else {
       varTitle.classList.remove("active");
@@ -275,11 +275,11 @@ const APP = {
     if (active === true) {
       varTitleError.classList.add("active");
       varTitleError.innerHTML = `
-      <p>There is not result for <span>"${document
+      <p>There is no result for <span>"${document
         .getElementById("keysssb")
-        .value.trim()}"</span> inside the category <span>${
+        .value.trim()}"</span> in the <span>${
         APP.selectCategories
-      }</span> try again</p>
+      }</span> category. Try again.</p>
       `;
     } else {
       varTitleError.classList.remove("active");
